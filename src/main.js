@@ -6,6 +6,10 @@ import "./plugins/element.js";
 
 Vue.config.productionTip = false;
 
+// Avoid Illegal invocation error
+// since browser restricts native method aliases like fetch
+Vue.prototype.$http = (url, opts) => fetch(url, opts);
+
 new Vue({
   router,
   store,

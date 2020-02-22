@@ -1,16 +1,34 @@
 <template>
   <div id="app">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/search">Search</router-link> |
-    <router-link to="/form">Form</router-link>
-
-    <router-view />
+    <el-container>
+      <el-header>
+        <el-menu :default-active="activeIndex" mode="horizontal" router>
+          <el-menu-item index="1" :route="{ name: 'Home' }">
+            Home
+          </el-menu-item>
+          <el-menu-item index="2" :route="{ name: 'Search' }">
+            Search
+          </el-menu-item>
+          <el-menu-item index="3" :route="{ name: 'Form' }">
+            Form
+          </el-menu-item>
+        </el-menu>
+      </el-header>
+      <el-main>
+        <router-view />
+      </el-main>
+    </el-container>
   </div>
 </template>
 
 <script>
 export default {
-  name: "app"
+  name: "app",
+  data() {
+    return {
+      activeIndex: "1"
+    };
+  }
 };
 </script>
 
@@ -21,6 +39,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
