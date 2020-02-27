@@ -15,7 +15,9 @@
         </el-menu>
       </el-header>
       <el-main>
-        <router-view />
+        <keep-alive include="/BookSearch/">
+          <router-view />
+        </keep-alive>
       </el-main>
     </el-container>
   </div>
@@ -39,5 +41,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background: #fcfcfc;
 }
 </style>

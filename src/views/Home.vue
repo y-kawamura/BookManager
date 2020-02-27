@@ -1,13 +1,26 @@
 <template>
-  <div class="home">
-    <h1>This is an home page</h1>
+  <div class="home" style="overflow: scroll;">
+    <book-info
+      v-for="book in myBooks"
+      :key="book.id"
+      :book="book"
+      :editable="true"
+      style="margin-top: 5px;"
+    />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+import { mapState } from "vuex";
+import BookInfo from "@/components/BookInfo.vue";
 
 export default {
-  name: "Home"
+  name: "Home",
+  components: {
+    BookInfo
+  },
+  computed: {
+    ...mapState(["myBooks"])
+  }
 };
 </script>

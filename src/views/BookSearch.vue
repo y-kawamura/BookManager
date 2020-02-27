@@ -6,23 +6,15 @@
       v-model="keyword"
       clearable
       @keyup.enter.native="searchAsync(1)"
-      style="margin-bottom: 30px"
     >
     </el-input>
-    <template v-for="book in books">
-      <div class="book-item" :key="book.id">
-        <div class="image">
-          <img v-if="book.image" :src="book.image" :alt="book.title" />
-          <div v-else class="no-image">No Image</div>
-        </div>
-        <div class="description">
-          <p>{{ book.title }}</p>
-          <p class="desc-sub">{{ book.author }}</p>
-          <p class="desc-sub">{{ book.publisher }}</p>
-        </div>
-      </div>
-      <hr :key="book.id" />
-    </template>
+    <book-info
+      v-for="book in books"
+      :key="book.id"
+      :book="book"
+      :addable="!isMyBook(book.id)"
+      style="margin-top: 5px"
+    />
     <el-pagination
       v-show="hasPage"
       background
@@ -36,11 +28,17 @@
 </template>
 
 <script>
+import BookInfo from "@/components/BookInfo.vue";
+import { mapGetters } from "vuex";
+
 export default {
   name: "BookSearch",
+  components: {
+    BookInfo
+  },
   data() {
     return {
-      keyword: "",
+      keyword: "vue.js",
       books: [],
       totalItems: 0,
       numPerPage: 40
@@ -73,6 +71,7 @@ export default {
               title: book.volumeInfo.title,
               author: authors ? authors.join(",") : "",
               publisher: book.volumeInfo.publisher,
+              published: book.volumeInfo.publishedDate,
               image: imageLink ? imageLink.smallThumbnail : ""
             });
           }
@@ -86,40 +85,8 @@ export default {
   computed: {
     hasPage() {
       return this.totalItems !== 0;
-    }
+    },
+    ...mapGetters(["isMyBook"])
   }
 };
 </script>
-
-<style scoped>
-.book-item {
-  display: grid;
-  grid-template-columns: 1fr 5fr;
-  min-height: 100px;
-  font-size: 0.8rem;
-}
-.image {
-  align-self: center;
-}
-.image img {
-  width: 100%;
-}
-.description {
-  text-align: left;
-  padding: 0 10px;
-  font-weight: bold;
-}
-.desc-sub {
-  font-size: 0.6rem;
-  color: #7f8c8d;
-}
-@media (min-width: 768px) {
-  .book-item {
-    min-height: 200px;
-    font-size: 1.2rem;
-  }
-  .desc-sub {
-    font-size: 0.8rem;
-}
-}
-</style>
